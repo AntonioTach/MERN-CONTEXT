@@ -1,10 +1,29 @@
-import {useState} from 'react'
+import { useState, createContext, useContext } from "react";
+import { getPostRequest } from "../api/post";
 
-export const PostContainer = ({children}) => {
-    const [posts, setPosts] = useState([])
-    console.log(posts)
-    console.log('container console')
-    return <div>
-        {children}
-    </div>
-}
+const postContext = createContext();
+
+export const usePosts = () => {
+  const context = useContext(postContext);
+  return context;
+};
+
+export const PostProvider = ({ children }) => {
+  const [posts, setPosts] = useState([]);
+
+  const getPosts = async () => {
+    const res = await getPostRequest();
+    setPosts(res.data);
+  };
+
+  return (
+    <postContext.Provider
+      value={{
+        posts,
+        getPosts
+      }}
+    >
+      {children}
+    </postContext.Provider>
+  );
+};

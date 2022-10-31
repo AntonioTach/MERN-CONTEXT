@@ -1,5 +1,5 @@
 export function PostForm() {
   return (
-    <div>Formulario</div>
+    <div>Form</div>
   )
 }
